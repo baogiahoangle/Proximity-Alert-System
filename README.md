@@ -7,10 +7,13 @@
 - [Functional Requirements](#functional-requirements)
 - [Hardware Block Diagram](#hardware-block-diagram)
 - [Layered Architecture](#layered-architecture)
-- [Flowchart of project](#flowchart-of-project)
+- [Flowchart](#flowchart)
 - [Repository Layout](#repository-layout)
+- [Getting Started](#getting-started)
+- [Contributing](#contributing)
 
 ## Overview
+![subject-image](/Docs/SubjectImage/subject-image.jpg)
 - The primary objective of Smart Proximity Alert System (SPAS) is to provide immediate and actionable alerts by continuously monitoring the distance of objects in its field of view. 
 - It dynamically categorizes these distances into predefined "SAFE" and "DANGEROUS" zones, triggering both visual (on-screen messages, graphical host position) and discrete (LED indicator) notifications when an object enters a critical "DANGEROUS" threshold.
 ---
@@ -28,6 +31,7 @@
 - **IDE**: Keil MDK-ARM (Keil C51 uVision)
 - **MCU**: STM32F103C8T6 (ARM Cortex-M3)
 - **Peripherals**: SRF05 Ultrasonic Sensor, ST7735 TFT Display, LED
+---
 
 ## Functional Requirements
 |ID|Feature Name|Description|Source/ Hardware Module|
@@ -49,8 +53,9 @@
 
 ---
 
-## Flowchart of project
+## Flowchart
 ![flowchart](Docs/Flowchart/flow_chart_app.drawio.png)
+
 ---
 
 ## Repository Layout
@@ -88,4 +93,24 @@ README.md
 ```
 ---
 
+## Getting Started
+1. Clone the Repository
+2. Open in Keil MDK-ARM: Ensure you have Keil MDK-ARM installed with STM32F1 device support. 
+3. Hardware Connection: Connect your STM32F103C8T6 development board, SRF05 sensor, ST7735 TFT display, and LED according to the [Hardware Block Diagram](#hardware-block-diagram).
+4. Build and Flash: Compile the firmware in Keil MDK-ARM and flash it to your MCU using an ST-Link debugger/programmer.
+---
 
+## Contributing
+I welcome contributions to enhance features, improve stability, or update documentation.
+1. Fork the repository and create a new branch for your feature or bug fix.
+2. Implement your changes and commit them with clear messages.
+3. Open a Pull Request (PR), describing the modifications you've made.
+4. Address any review comments to get your changes merged.
+---
+
+## Demo
+[Smart Proximity Alert System](https://youtu.be/pPYZduCxOzM)
+
+---
+
+Thank you for visiting this repository!
