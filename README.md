@@ -1,6 +1,5 @@
 # Smart Proximity Alert System
 ## Table of Contents
-
 - [Smart Proximity Alert System](#smart-proximity-alert-system)
   - [Table of Contents](#table-of-contents)
   - [Overview](#overview)
