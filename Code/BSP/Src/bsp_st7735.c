@@ -25,7 +25,6 @@ extern "C" {
 /* Public enumerate/structure ----------------------------------------------- */
 /* Public macros ------------------------------------------------------------ */
 /* Public variables --------------------------------------------------------- */
-SPI_HandleTypeDef ST7735_HSPI;
 /* Private variables -------------------------------------------------------- */
 static st7735_t st7735_device = 
 {
@@ -47,20 +46,14 @@ static st7735_handler_t st7735_bsp_handler =
 
 st7735_status_t bsp_st7735_gpio_init(void)
 {
-  GPIO_InitTypeDef GPIO_InitStruct = {0};
-
   /* GPIO Ports Clock Enable */
   ST7735_HAL_SPI_PORT_CLK_ENABLE();
   ST7735_HAL_GPIO_PORT_CLK_ENABLE();
 
   /*Configure ST7735 control pins (CS, A0, RST) as Output Push Pull */
-  HAL_GPIO_WritePin(ST7735_GPIO_PORT, ST7735_GPIO_PIN_CS | ST7735_GPIO_PIN_A0 | ST7735_GPIO_PIN_RST, GPIO_PIN_RESET);
-
-  GPIO_InitStruct.Pin = ST7735_GPIO_PIN_CS | ST7735_GPIO_PIN_A0 | ST7735_GPIO_PIN_RST;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(ST7735_GPIO_PORT, &GPIO_InitStruct);
+  gpio_config(ST7735_GPIO_PORT, ST7735_GPIO_PIN_CS, GPIO_MODE_OUTPUT_PP);
+  gpio_config(ST7735_GPIO_PORT, ST7735_GPIO_PIN_A0, GPIO_MODE_OUTPUT_PP);
+  gpio_config(ST7735_GPIO_PORT, ST7735_GPIO_PIN_RST, GPIO_MODE_OUTPUT_PP);
 
   return ST7735_OK;
 }
@@ -70,35 +63,8 @@ st7735_status_t bsp_st7735_spi_init(void)
   /* Peripheral clock enable */
   ST7735_HAL_SPI_CLK_ENABLE();
   ST7735_HAL_SPI_PORT_CLK_ENABLE(); 
-  GPIO_InitTypeDef GPIO_InitStruct = {0};
-  GPIO_InitStruct.Pin = ST7735_SPI_SCK_PIN | ST7735_SPI_MOSI_PIN; // SCK, MOSI
-  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
-  HAL_GPIO_Init(ST7735_SPI_GPIO_PORT, &GPIO_InitStruct);
 
-  GPIO_InitStruct.Pin = ST7735_SPI_MISO_PIN; // MISO
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(ST7735_SPI_GPIO_PORT, &GPIO_InitStruct);
-
-  ST7735_HSPI.Instance = ST7735_HSPI_INSTANCE;
-  ST7735_HSPI.Init.Mode = SPI_MODE_MASTER;
-  ST7735_HSPI.Init.Direction = SPI_DIRECTION_2LINES; // Full-duplex, but we mostly transmit
-  ST7735_HSPI.Init.DataSize = SPI_DATASIZE_8BIT;
-  ST7735_HSPI.Init.CLKPolarity = SPI_POLARITY_LOW;   // ST7735 typically uses CPOL=0
-  ST7735_HSPI.Init.CLKPhase = SPI_PHASE_1EDGE;       // ST7735 typically uses CPHA=0
-  ST7735_HSPI.Init.NSS = SPI_NSS_SOFT;               // Software slave select
-  ST7735_HSPI.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_2; // Max speed (PCLK/2), adjust if unstable
-  ST7735_HSPI.Init.FirstBit = SPI_FIRSTBIT_MSB;
-  ST7735_HSPI.Init.TIMode = SPI_TIMODE_DISABLE;
-  ST7735_HSPI.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
-  ST7735_HSPI.Init.CRCPolynomial = 10;
-
-  if (HAL_SPI_Init(&ST7735_HSPI) != HAL_OK)
-  {
-    return ST7735_SPI_ERROR;
-  }
-
+  spi1_init_master();
   return ST7735_OK;
 }
 
@@ -115,7 +81,7 @@ st7735_status_t bsp_st7735_init(void)
   st7735_bsp_handler.st7735->pin_cs = ST7735_GPIO_PIN_CS;
   st7735_bsp_handler.st7735->pin_a0 = ST7735_GPIO_PIN_A0;
   st7735_bsp_handler.st7735->pin_reset = ST7735_GPIO_PIN_RST;
-  st7735_bsp_handler.st7735->hspi = &ST7735_HSPI;
+  st7735_bsp_handler.st7735->hspi = ST7735_HSPI;
 
   // Perform ST7735 chip initialization
   st7735_status_t status = st7735_init(st7735_bsp_handler.st7735);

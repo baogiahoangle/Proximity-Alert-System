@@ -39,21 +39,8 @@ static led_handler_t led_bsp_handler =
 
 led_status_t bsp_led_gpio_init()
 {
-  GPIO_InitTypeDef GPIO_InitStruct = {0};
-  /* GPIO Ports Clock Enable */
-  __HAL_RCC_GPIOD_CLK_ENABLE();
-  __HAL_RCC_GPIOA_CLK_ENABLE();
-  __HAL_RCC_GPIOB_CLK_ENABLE();
-
-  /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(LED_GPIO_PORT, LED_GPIO_PIN, GPIO_PIN_RESET);
-
-  /*Configure GPIO pin : PB4 */
-  GPIO_InitStruct.Pin = LED_GPIO_PIN;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(LED_GPIO_PORT, &GPIO_InitStruct);
+  rcc_enable_port_b();
+  gpio_config(LED_GPIO_PORT, LED_GPIO_PIN, GPIO_MODE_OUTPUT_PP);
 
   return LED_OK;
 }
@@ -91,12 +78,6 @@ led_status_t bsp_led_off()
 {
   BSP_LED_CHECK_HANDLER_INIT(&led_bsp_handler);
   BSP_LED_CHECK_STATUS(&led_bsp_handler, led_off(&led_device));
-}
-
-led_status_t bsp_led_toggle()
-{
-  BSP_LED_CHECK_HANDLER_INIT(&led_bsp_handler);
-  BSP_LED_CHECK_STATUS(&led_bsp_handler, led_toggle(&led_device));
 }
 
 /* -------------------------------------------------------------------------- */

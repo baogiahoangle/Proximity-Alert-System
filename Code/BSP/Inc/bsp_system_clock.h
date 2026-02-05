@@ -21,7 +21,7 @@ extern "C" {
 #endif
 
 /* Includes ----------------------------------------------------------------- */
-#include "stm32f1xx_hal.h" 
+#include "hal_rcc.h" 
 
 #define BSP_VERSION_1
 #ifdef BSP_VERSION_1

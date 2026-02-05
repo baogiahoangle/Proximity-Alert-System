@@ -36,7 +36,6 @@ extern "C" {
 /* GPIO Configuration */
 #endif /* BSP_VERSION_2 */
 
-/* Public enumerate/structure ----------------------------------------------- */
 /* Public macros ------------------------------------------------------------ */
 
 #define BSP_LED_CHECK_HANDLER_INIT(handler) \
@@ -61,14 +60,10 @@ extern "C" {
            return (status); \
     } while(0)
 
-/* Public variables --------------------------------------------------------- */
 /* Public APIs -------------------------------------------------------------- */
 /**
  * @brief         Initializes GPIO pins for LED operation.
- * 
- * @return        led_status_t LED_OK if GPIOs initialized successfully,
- *                             LED_ERROR if any error occurs during initialization.
- * 
+ * @return        led_status_t
  * @note          Configures LED pin as output.
  */
 led_status_t bsp_led_gpio_init();
@@ -76,51 +71,22 @@ led_status_t bsp_led_gpio_init();
 /**
  * @brief         This function maps the hardware resources (GPIO) to the
  *                LED driver structure.
- *
- * @param[in]     None
- *
- * @return        led_status_t LED_OK if initialization is successful,
- *                             LED_ERROR if any error occurs during initialization.
- *
- * @note          None
+ * @return        led_status_t
  */
 led_status_t bsp_led_init();
 
 /**
  * @brief         Turn on the LED.
- *
- * @param[in]     None
- *
- * @return        led_status_t LED_OK if operation is successful,
- *                             LED_ERROR if any error occurs during operation.
- *
- * @note          None
+ * @return        led_status_t
  */
 led_status_t bsp_led_on();
 
 /**
  * @brief         Turn off the LED.
- *
- * @param[in]     None
- *
- * @return        led_status_t LED_OK if operation is successful,
- *                             LED_ERROR if any error occurs during operation.
- *
- * @note          None
+ * @return        led_status_t
  */
 led_status_t bsp_led_off();
 
-/**
- * @brief         Toggle the LED state.
- *
- * @param[in]     None
- *
- * @return        led_status_t LED_OK if operation is successful,
- *                             LED_ERROR if any error occurs during operation.
- *
- * @note          None
- */
-led_status_t bsp_led_toggle();
 /* -------------------------------------------------------------------------- */
 
 #ifdef __cplusplus

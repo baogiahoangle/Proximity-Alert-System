@@ -1,16 +1,20 @@
 # Smart Proximity Alert System
 ## Table of Contents
 
-- [Overview](#overview)
-- [Key Features](#key-features)
-- [Technologies](#technologies)
-- [Functional Requirements](#functional-requirements)
-- [Hardware Block Diagram](#hardware-block-diagram)
-- [Layered Architecture](#layered-architecture)
-- [Flowchart](#flowchart)
-- [Repository Layout](#repository-layout)
-- [Getting Started](#getting-started)
-- [Contributing](#contributing)
+- [Smart Proximity Alert System](#smart-proximity-alert-system)
+  - [Table of Contents](#table-of-contents)
+  - [Overview](#overview)
+  - [Key Features](#key-features)
+  - [Technologies](#technologies)
+  - [Functional Requirements](#functional-requirements)
+  - [|FR6|LED Danger Indication|Turn on an LED when the host is in the dangerous zone and turn off the LED when the host is in the safe zone.|LED|](#fr6led-danger-indicationturn-on-an-led-when-the-host-is-in-the-dangerous-zone-and-turn-off-the-led-when-the-host-is-in-the-safe-zoneled)
+  - [Hardware Block Diagram](#hardware-block-diagram)
+  - [Layered Architecture](#layered-architecture)
+  - [Flowchart](#flowchart)
+  - [Repository Layout](#repository-layout)
+  - [Getting Started](#getting-started)
+  - [Contributing](#contributing)
+  - [Demo](#demo)
 
 ## Overview
 ![subject-image](/Docs/SubjectImage/subject-image.jpg)
@@ -70,13 +74,12 @@ Code/
 ├── Core/
 │   ├── Inc/
 │   └── Src/
-├── Drivers/
-│   ├── CMSIS/
-│   ├── DeviceDrivers/
-│       ├── Inc/
-│       └── Src/
-│   └── STM32F1xx_HAL_Driver/
-├── MDK-ARM/
+├── DeviceDrivers/
+│   ├── Inc/
+│   └── Src/
+├── HardwareAbstraction/
+│   ├── Inc/
+│   └── Src/
 ├── Middlewares&Libraries/
 │   ├── Inc/
 │   └── Src/
