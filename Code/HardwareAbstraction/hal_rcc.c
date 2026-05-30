@@ -1,15 +1,3 @@
-/**
- * @file       hal_rcc.c
- * @copyright  Copyright (c) 2025
- * @license    
- * @version    1.0.0
- * @date       2025-17-9
- * @author     Hoang Le
- * @brief      Hardware Abstraction Layer for Reset and Clock Control (RCC)
- * @note       None
- * @example    None
- */
-
 #include "hal_rcc.h"
 
 void rcc_config_72mhz(void){
@@ -19,16 +7,16 @@ void rcc_config_72mhz(void){
   // PLL entry clock source
   RCC->CFGR.BITS.PLLSRC = 1;
   // PLL multiplication factor: x9 PLL
-  RCC->CFGR.BITS.PLLMUL = 7; 
+  RCC->CFGR.BITS.PLLMUL = 7;
   RCC->CR.BITS.PLLON = 1;
   while(!RCC->CR.BITS.PLLRDY){}
   
   // AHB
-  RCC->CFGR.BITS.HPRE = 0; 
+  RCC->CFGR.BITS.HPRE = 0;
   // APB1
-  RCC->CFGR.BITS.PPRE1 = 4; 
+  RCC->CFGR.BITS.PPRE1 = 4;
   // APB2
-  RCC->CFGR.BITS.PPRE2 = 0; 
+  RCC->CFGR.BITS.PPRE2 = 0;
   RCC->CFGR.BITS.SW = 2;
   while(RCC->CFGR.BITS.SWS != 2){}
 }

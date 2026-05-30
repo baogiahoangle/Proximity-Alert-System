@@ -1,20 +1,7 @@
-/**
- * @file       hal_gpio.h
- * @copyright  Copyright (c) 2025
- * @license    
- * @version    1.0.0
- * @date       2025-17-9
- * @author     Hoang Le
- * @brief      Hardware Abstraction Layer for General Purpose Input/Output (GPIO)
- * @note       None
- * @example    None
- */
-
 #ifndef __HAL_GPIO_H
 #define __HAL_GPIO_H
 #include <stdint.h>
 
-// GPIO PIN
 #define GPIO_PIN_0      ((uint16_t)0x0001)
 #define GPIO_PIN_1      ((uint16_t)0x0002)
 #define GPIO_PIN_2      ((uint16_t)0x0004)
@@ -32,7 +19,6 @@
 #define GPIO_PIN_14     ((uint16_t)0x4000)
 #define GPIO_PIN_15     ((uint16_t)0x8000)
 
-// GPIO MODE
 #define GPIO_MODE_INPUT_FLOATING    0x00
 #define GPIO_MODE_OUTPUT_PP         0x01
 #define GPIO_MODE_OUTPUT_OD         0x02
@@ -42,7 +28,6 @@
 #define GPIO_MODE_INPUT_PU          0x06
 #define GPIO_MODE_INPUT_PD          0x07
 
-// GPIO STATE
 #define GPIO_STATE_RESET    0x00
 #define GPIO_STATE_SET      0x01
 
@@ -222,7 +207,6 @@ typedef struct
 #define GPIOB   ((volatile gpio_t*)(0x40010C00UL))
 #define GPIOC   ((volatile gpio_t*)(0x40011000UL))
 
-// Default SPEED: 50MHz
 void gpio_config(volatile gpio_t *GPIOx, uint16_t pin, uint32_t mode);
 void gpio_write_pin(volatile gpio_t* GPIOx, uint16_t pin, uint8_t state);
 uint8_t gpio_read_pin(volatile gpio_t* GPIOx, uint16_t pin);

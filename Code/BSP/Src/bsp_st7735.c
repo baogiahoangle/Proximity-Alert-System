@@ -1,31 +1,12 @@
-/**
- * @file       bsp_st7735.c
- * @copyright  Copyright (c) 2025
- * @license    
- * @version    1.0.0
- * @date       2025-20-9
- * @author     Hoang Le
- * @brief      Board support package for TFT LCD Display (ST7735)
- * @note       None
- * @example    None
- */
-
-/* Define to prevent recursive inclusion ------------------------------------ */
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-/* Includes ----------------------------------------------------------------- */
 #include "bsp_st7735.h"
 
-/* Public defines ----------------------------------------------------------- */
-/* SPI Handle */
 #define ST7735_HSPI                       hspi1
 #define ST7735_HSPI_INSTANCE              SPI1
-/* Public enumerate/structure ----------------------------------------------- */
-/* Public macros ------------------------------------------------------------ */
-/* Public variables --------------------------------------------------------- */
-/* Private variables -------------------------------------------------------- */
+
 static st7735_t st7735_device = 
 {
   .port = NULL,
@@ -42,15 +23,11 @@ static st7735_handler_t st7735_bsp_handler =
   .status = ST7735_ERROR,
 };
 
-/* Public implementations --------------------------------------------------- */
-
 st7735_status_t bsp_st7735_gpio_init(void)
 {
-  /* GPIO Ports Clock Enable */
   ST7735_HAL_SPI_PORT_CLK_ENABLE();
   ST7735_HAL_GPIO_PORT_CLK_ENABLE();
 
-  /*Configure ST7735 control pins (CS, A0, RST) as Output Push Pull */
   gpio_config(ST7735_GPIO_PORT, ST7735_GPIO_PIN_CS, GPIO_MODE_OUTPUT_PP);
   gpio_config(ST7735_GPIO_PORT, ST7735_GPIO_PIN_A0, GPIO_MODE_OUTPUT_PP);
   gpio_config(ST7735_GPIO_PORT, ST7735_GPIO_PIN_RST, GPIO_MODE_OUTPUT_PP);
@@ -60,9 +37,8 @@ st7735_status_t bsp_st7735_gpio_init(void)
 
 st7735_status_t bsp_st7735_spi_init(void)
 {
-  /* Peripheral clock enable */
   ST7735_HAL_SPI_CLK_ENABLE();
-  ST7735_HAL_SPI_PORT_CLK_ENABLE(); 
+  ST7735_HAL_SPI_PORT_CLK_ENABLE();
 
   spi1_init_master();
   return ST7735_OK;
@@ -70,25 +46,20 @@ st7735_status_t bsp_st7735_spi_init(void)
 
 st7735_status_t bsp_st7735_init(void)
 {
-  // Initialize GPIOs
   BSP_ST7735_INIT_CHECK(bsp_st7735_gpio_init());
-
-  // Initialize SPI
   BSP_ST7735_INIT_CHECK(bsp_st7735_spi_init());
-  
-  // Link BSP hardware resources to the ST7735 driver instance
+
   st7735_bsp_handler.st7735->port = ST7735_GPIO_PORT;
   st7735_bsp_handler.st7735->pin_cs = ST7735_GPIO_PIN_CS;
   st7735_bsp_handler.st7735->pin_a0 = ST7735_GPIO_PIN_A0;
   st7735_bsp_handler.st7735->pin_reset = ST7735_GPIO_PIN_RST;
   st7735_bsp_handler.st7735->hspi = ST7735_HSPI;
 
-  // Perform ST7735 chip initialization
   st7735_status_t status = st7735_init(st7735_bsp_handler.st7735);
   if (status == ST7735_OK)
   {
     st7735_bsp_handler.st7735_is_init = true;
-    st7735_bsp_handler.status = ST7735_OK; // Set BSP status to OK after successful init
+    st7735_bsp_handler.status = ST7735_OK;
   }
   else
   {
@@ -182,11 +153,7 @@ st7735_status_t bsp_st7735_draw_password_mask(uint8_t entered_digits, uint8_t to
   BSP_ST7735_CHECK_HANDLER_INIT(&st7735_bsp_handler);
   BSP_ST7735_CHECK_STATUS(&st7735_bsp_handler, st7735_draw_password_mask(st7735_bsp_handler.st7735, entered_digits, total_digits, y, active_color, inactive_color));
 }
-/* -------------------------------------------------------------------------- */
 
 #ifdef __cplusplus
-} /* extern "C" { */
+}
 #endif
-
-
-/* End of file -------------------------------------------------------------- */

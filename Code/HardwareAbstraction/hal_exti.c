@@ -10,12 +10,12 @@ void EXTI0_Init(void)
   
   NVIC_ISER0 |= (1 << 6);
 }
+
 void EXTI0_IRQHandler(void)
 {
   // Interrupt exists
   if (EXTI->PR.BITS.BIT0)
   {
-    
     EXTI->PR.REG |= (uint32_t)(1<< 0);
   }
 }
@@ -52,8 +52,8 @@ void EXTI_Init(uint16_t gpio_pin, volatile gpio_t *port, uint8_t type)
   {
     return;
   }
-  pin = get_Pin_Number(gpio_pin); 
-  uint32_t shift = (pin % 4) * 4; 
+  pin = get_Pin_Number(gpio_pin);
+  uint32_t shift = (pin % 4) * 4;
   if (pin < 4)
   {
     AFIO->EXTICR1.REG &= (uint32_t)~(0xF << shift);
@@ -75,7 +75,7 @@ void EXTI_Init(uint16_t gpio_pin, volatile gpio_t *port, uint8_t type)
     AFIO->EXTICR4.REG |= (uint32_t)(port_code << shift);
   }
   
-  EXTI->IMR.REG |= (1 << pin); 
+  EXTI->IMR.REG |= (1 << pin);
   
   if (type == EXTI_RISING_MODE)
   {
@@ -84,7 +84,7 @@ void EXTI_Init(uint16_t gpio_pin, volatile gpio_t *port, uint8_t type)
   }
   else if (type == EXTI_FALLING_MODE)
   {
-    EXTI->RTSR.REG &= ~(1 << pin); 
+    EXTI->RTSR.REG &= ~(1 << pin);
     EXTI->FTSR.REG |= (1 << pin);
   }
   else

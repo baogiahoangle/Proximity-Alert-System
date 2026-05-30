@@ -1,31 +1,16 @@
-/**
- * @file       hal_gpio.c
- * @copyright  Copyright (c) 2025
- * @license    
- * @version    1.0.0
- * @date       2025-17-9
- * @author     Hoang Le
- * @brief      Hardware Abstraction Layer for General Purpose Input/Output (GPIO)
- * @note       None
- * @example    None
- */
-
- #include "hal_gpio.h"
+#include "hal_gpio.h"
 
 void gpio_config(volatile gpio_t *GPIOx, uint16_t pin, uint32_t mode){
   uint32_t position = 0;
   uint32_t config = 0;
   for(position = 0 ; position < 16 ; position++){
     if(pin & (1 << position)){
-      //Clear 4 bit config
       if(position < 8)
       {
-        //CRL
         GPIOx->CRL.REG &= ~(uint32_t)(0xF << (position*4));
       }
       else
       {
-        //CRH
         GPIOx->CRH.REG &= ~(uint32_t)(0xF << (position - 8)*4);
       }
       switch(mode)
@@ -59,7 +44,7 @@ void gpio_config(volatile gpio_t *GPIOx, uint16_t pin, uint32_t mode){
       }
       if (mode == GPIO_MODE_INPUT_FLOATING || mode == GPIO_MODE_INPUT_PD || mode == GPIO_MODE_INPUT_PU) 
       {
-        config |= 0x00; 
+        config |= 0x00;
       }
       
       if(position < 8)
@@ -70,13 +55,11 @@ void gpio_config(volatile gpio_t *GPIOx, uint16_t pin, uint32_t mode){
       {
         GPIOx->CRH.REG |= (config << (position - 8) * 4);
       }
-      
     }
   }
 }
 
 void gpio_write_pin(volatile gpio_t *GPIOx, uint16_t pin, uint8_t state){
-  
   if(state)
   {
     GPIOx->BSRR.REG = pin;
@@ -85,10 +68,8 @@ void gpio_write_pin(volatile gpio_t *GPIOx, uint16_t pin, uint8_t state){
   {
     GPIOx->BRR.REG = pin;
   }
-
 }
 
 uint8_t gpio_read_pin(volatile gpio_t *GPIOx, uint16_t pin){
   return ((GPIOx->IDR.REG & pin) ? 1 : 0);
 }
-	
